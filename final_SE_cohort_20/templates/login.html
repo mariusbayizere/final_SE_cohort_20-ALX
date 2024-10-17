@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+/* Add this CSS to your stylesheet (e.g., style.css) */
+
+body {
+    background-color: #f8f9fa; /* Light background for contrast */
+    height: 100vh; /* Ensure the body takes up the full height of the viewport */
+    display: flex; 
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    margin: 0; /* Remove default margin */
+    font-family: Outfit, sans-serif; /* Use Arial font for readability */
+}
+
+.login {
+    width: 180%;
+    height: 46vh;
+    padding: 20px; 
+    background-color: #ffffff;
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+h2 {
+    text-align: center; /* Center the heading */
+    color: #333; /* Darker color for the text */
+    font-size: 34px;
+}
+
+.form-group {
+    margin-bottom: 15px; /* Space between form groups */
+}
+
+.form-label {
+    display: block; /* Make labels block-level elements */
+    margin-bottom: 15px; /* Space below labels */
+    font-weight: bold; /* Bold text for labels */
+    color: #555; /* Slightly lighter than the header */
+}
+
+.form-control {
+    width: 92%; /* Full width for input fields */
+    padding: 12px; /* Padding inside input fields */
+    border: 1px solid #ced4da; /* Border color */
+    border-radius: 4px; /* Rounded corners for inputs */
+    transition: border-color 0.2s; /* Transition effect for focus */
+    font-size: 16px; 
+    padding-right: 15px;
+}
+
+.form-control:focus {
+    border-color: #80bdff; /* Change border color on focus */
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 5px rgba(128, 189, 255, 0.5); /* Shadow effect on focus */
+}
+
+.btn-primary {
+    width: 97%; /* Full width for the button */
+    padding: 15px;
+    margin-top: 13px;
+    background-color: dodgerblue;
+    color: white; /* White text for the button */
+    border-radius: 22px; /* Rounded corners for the button */
+    font-weight: bold; /* Bold text for the button */
+    border: none; /* Rounded corners for the button */
+}
+.btn-primary:hover {
+    background-color: blue; /* Change background color on hover */
+}
+
+    </style>
+</head>
+<body>
+    <form method="POST" class="login-form">
+        <div class="login">
+            <h2>Login</h2>
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.email.label(class="form-label") }}
+                {{ form.email(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.password.label(class="form-label") }}
+                {{ form.password(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+            <div class="form-groups" style="text-align: center; margin-top: 10px;">
+                <a href="/add_user" style="text-decoration: none; color: #007bff; font-size: 12px;">
+                    Don't have an account? Create one here
+                </a>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

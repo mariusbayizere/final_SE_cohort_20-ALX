@@ -1,0 +1,197 @@
+
+{% extends 'header.html' %}
+
+{% block title %}About Us - Library Management System{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container a, h1 {
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+        /* Ensure buttons are inline and spaced properly */
+        .action-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px; 
+        }
+        .btn {
+            margin: 0;
+
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Outfit, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;  
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            color: white;
+            padding: 10px 40px;
+            height: 100px;
+        }
+        
+        .header-left h1 {
+            font-size: 24px;
+        }
+        
+        .header-right ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        .header-right ul li {
+            margin-left: 100px;
+    
+        }
+        
+        .header-right ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        
+        .header-right ul li a:hover {
+            text-decoration: underline;
+        }
+        
+        main {
+            flex: 1;  /* Allow the main content area to grow and fill the remaining space */
+            padding: 20px;
+        }
+        
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            height: 90px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-content p{
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            line-height: 60px;
+            align-items: center;
+        }
+    
+        .footer-content ul {
+            list-style: none;
+            display: flex;
+        }
+        
+        .footer-content ul li {
+            margin-left: 20px;
+        }
+        
+        .footer-content ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        
+        .footer-content ul li a:hover {
+            text-decoration: underline;
+        }
+        .services-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0;
+            font-size: 18px;
+        }
+        
+        .services-list li {
+            margin-bottom: 15px;
+        }
+        
+        .services-list strong {
+            color: #333;
+        }
+    </style>
+        <div class="container">
+            <h1>All Books</h1>
+            
+            <a href="{{ url_for('book.add_book') }}" class="btn btn-primary">Add New Book</a>
+        
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <!-- Books Table -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Book ID</th>
+                    <th>Title</th>
+                    <th>Book Images</th>
+                    <th>Author</th>
+                    <th>Publication Year</th>
+                    <th>Pages</th>
+                    <th>Status</th>
+                    <th>User ID</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                    <tr>
+                        <td>{{ book.book_id }}</td>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.BookImages }}</td>
+                        <td>{{ book.author }}</td>
+                        <td>{{ book.publication_year }}</td>
+                        <td>{{ book.page }}</td>
+                        <td>{{ book.book_status }}</td>
+                        <td>{{ book.user_id or 'N/A' }}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="{{ url_for('book.update_book', id=book.book_id) }}" class="btn btn-primary btn-sm">Edit</a>
+                                <form action="{{ url_for('book.delete_book', id=book.book_id) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm" style="margin-bottom: 8px;">Delete</button>
+                                </form>                                
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="9" class="text-center">No books found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}

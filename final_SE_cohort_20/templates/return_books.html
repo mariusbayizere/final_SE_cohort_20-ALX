@@ -1,0 +1,213 @@
+{% extends "header.html" %}
+
+{% block title %}Add user Record{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Optional: Add some custom styles for better visualization */
+        .form-container {
+            margin-top: 50px;
+            max-width: 600px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Outfit, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;  
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            color: white;
+            padding: 10px 40px;
+            height: 100px;
+        }
+        
+        .header-left h1 {
+            font-size: 24px;
+        }
+        
+        .header-right ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        .header-right ul li {
+            margin-left: 100px;
+        }
+        
+        .header-right ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        
+        .header-right ul li a:hover {
+            text-decoration: underline;
+        }
+        
+        main {
+            flex: 1;  /* Allow the main content area to grow and fill the remaining space */
+            padding: 20px;
+        }
+        
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            height: 90px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-content p {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            line-height: 60px;
+            align-items: center;
+        }
+    
+        .footer-content ul {
+            list-style: none;
+            display: flex;
+        }
+        
+        .footer-content ul li {
+            margin-left: 20px;
+        }
+        
+        .footer-content ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        
+        .footer-content ul li a:hover {
+            text-decoration: underline;
+        }
+    
+        .services-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0;
+            font-size: 18px;
+        }
+        
+        .services-list li {
+            margin-bottom: 15px;
+        }
+        
+        .services-list strong {
+            color: #333;
+        }
+        .form-container {
+            margin-top: 50px;
+            max-width: 600px;
+        }
+    </style>
+<body>
+    <div class="container mt-5">
+        <h2>Return Book</h2>
+
+        <!-- Display Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Form to GET User ID and Show Borrowed Books -->
+        <form method="GET" action="{{ url_for('borrow.return_book') }}">
+            <div class="form-group">
+                <label for="user_id">User ID</label>
+                <input type="text" class="form-control" id="user_id" name="user_id" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Find Borrowed Books</button>
+        </form>
+
+        {% if borrow_records %}
+        <!-- Display Books to Return once found -->
+        <form method="POST" action="{{ url_for('borrow.return_book') }}">
+            <!-- Hidden input for user_id -->
+            <input type="hidden" name="user_id" value="{{ request.args.get('user_id') }}">
+
+            <h4>Borrowed Books</h4>
+            {% for borrow_record in borrow_records %}
+                <div class="border p-3 mb-3">
+                    <!-- Add a checkbox to select the book to return -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="books_to_return" value="{{ borrow_record.book_id }}" id="book_{{ borrow_record.book_id }}">
+                        <label class="form-check-label" for="book_{{ borrow_record.book_id }}">
+                            Select to Return
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="book_id_{{ borrow_record.book_id }}">Book ID</label>
+                        <input type="text" class="form-control" id="book_id_{{ borrow_record.book_id }}" value="{{ borrow_record.book_id }}" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="book_title_{{ borrow_record.book_id }}">Book Title</label>
+                        <input type="text" class="form-control" id="book_title_{{ borrow_record.book_id }}" value="{{ borrow_record.books.title }}" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="borrow_date_{{ borrow_record.book_id }}">Borrow Date</label>
+                        <input type="text" class="form-control" id="borrow_date_{{ borrow_record.book_id }}" value="{{ borrow_record.borrow_date }}" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="expected_return_date_{{ borrow_record.book_id }}">Expected Return Date</label>
+                        <input type="text" class="form-control" id="expected_return_date_{{ borrow_record.book_id }}" value="{{ borrow_record.return_date }}" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="return_date_{{ borrow_record.book_id }}">Return Date</label>
+                        <input type="date" class="form-control" id="return_date_{{ borrow_record.book_id }}" name="return_date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fine_{{ borrow_record.book_id }}">Fine (if any)</label>
+                        <input type="text" class="form-control" id="fine_{{ borrow_record.book_id }}" value="{{ borrow_record.fine }}" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status_{{ borrow_record.book_id }}">Status</label>
+                        <input type="text" class="form-control" id="status_{{ borrow_record.book_id }}" value="{{ borrow_record.status }}" readonly>
+                    </div>
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Return Selected Books</button>
+        </form>
+        {% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'header.html' %}
+
+{% block title %}Our Services - Library Management System{% endblock %}
+
+{% block content %}
+<style>
+    /* Services page styles */
+.services-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+    font-size: 18px;
+}
+
+.services-list li {
+    margin-bottom: 15px;
+}
+
+.services-list strong {
+    color: #333;
+}
+section{
+    padding: 50px;
+    margin-top: 140px;
+    text-align: center;
+    background-color: dodgerblue;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-family: Outfit;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+</style>
+<section>
+    <h2>Our Services</h2>
+    <p>We offer a variety of services to enhance your experience:</p>
+    
+    <ul class="services-list">
+        <li><strong>Book Lending:</strong> Borrow books for a specified period. Return them on time to avoid late fees.</li>
+        <li><strong>Reference Services:</strong> Get assistance in finding resources and information for your research.</li>
+        <li><strong>Study Rooms:</strong> Reserve study rooms for individual or group study sessions.</li>
+        <li><strong>Events and Workshops:</strong> Participate in events, workshops, and book clubs organized by the library.</li>
+        <li><strong>Online Resources:</strong> Access e-books, journals, and databases from anywhere.</li>
+    </ul>
+</section>
+{% endblock %}

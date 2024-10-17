@@ -1,0 +1,286 @@
+{% extends 'header.html' %}
+
+{% block title %}About Us - Library Management System{% endblock %}
+
+{% block content %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Optional: Add some custom styles for better visualization */
+        .form-container {
+            margin-top: 50px;
+            max-width: 600px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Outfit, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;  
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            color: white;
+            padding: 10px 40px;
+            height: 100px;
+        }
+        
+        .header-left h1 {
+            font-size: 24px;
+        }
+        
+        .header-right ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        .header-right ul li {
+            margin-left: 100px;
+    
+        }
+        
+        .header-right ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        
+        .header-right ul li a:hover {
+            text-decoration: underline;
+        }
+        
+        main {
+            flex: 1;  /* Allow the main content area to grow and fill the remaining space */
+            padding: 20px;
+        }
+        
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            height: 90px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-content p{
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            line-height: 60px;
+            align-items: center;
+        }
+    
+        .footer-content ul {
+            list-style: none;
+            display: flex;
+        }
+        
+        .footer-content ul li {
+            margin-left: 20px;
+        }
+        
+        .footer-content ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        
+        .footer-content ul li a:hover {
+            text-decoration: underline;
+        }
+        .services-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0;
+            font-size: 18px;
+        }
+        
+        .services-list li {
+            margin-bottom: 15px;
+        }
+        
+        .services-list strong {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container form-container">
+        <h1>Add Book</h1>
+        
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        
+        <form method="POST" novalidate>
+            {{ form.hidden_tag() }}
+
+            <!-- Book ID Field -->
+            <div class="form-group">
+                {{ form.book_id.label(class="form-label") }}
+                {% if form.book_id.errors %}
+                    {{ form.book_id(class="form-control is-invalid", placeholder="Enter Book ID") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.book_id.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.book_id(class="form-control", placeholder="Enter Book ID") }}
+                {% endif %}
+            </div>
+
+            <!-- Title Field -->
+            <div class="form-group">
+                {{ form.title.label(class="form-label") }}
+                {% if form.title.errors %}
+                    {{ form.title(class="form-control is-invalid", placeholder="Enter Title") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.title.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.title(class="form-control", placeholder="Enter Title") }}
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.Rating.label(class="form-label") }}
+                {% if form.Rating.errors %}
+                    {{ form.Rating(class="form-control is-invalid", placeholder="Enter Author") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.Rating.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.Rating(class="form-control", placeholder="Enter Book Rating") }}
+                {% endif %}
+            </div>
+
+
+            <div class="form-group">
+                {{ form.BookImages.label(class="form-label") }}
+                {% if form.BookImages.errors %}
+                    {{ form.BookImages(class="form-control is-invalid", placeholder="Enter Author") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.BookImages.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.BookImages(class="form-control", placeholder="Enter Book Images") }}
+                {% endif %}
+            </div>
+
+
+            <!-- Author Field -->
+            <div class="form-group">
+                {{ form.author.label(class="form-label") }}
+                {% if form.author.errors %}
+                    {{ form.author(class="form-control is-invalid", placeholder="Enter Author") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.author.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.author(class="form-control", placeholder="Enter Author") }}
+                {% endif %}
+            </div>
+
+            <!-- Publication Year Field -->
+            <div class="form-group">
+                {{ form.publication_year.label(class="form-label") }}
+                {% if form.publication_year.errors %}
+                    {{ form.publication_year(class="form-control is-invalid", placeholder="Enter Publication Year") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.publication_year.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.publication_year(class="form-control", placeholder="Enter Publication Year") }}
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.Description.label(class="form-label") }}
+                {% if form.Description.errors %}
+                    {{ form.Description(class="form-control is-invalid", placeholder="Enter Author") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.Description.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.Description(class="form-control", placeholder="Enter Book Description") }}
+                {% endif %}
+            </div>
+
+            <!-- Pages Field -->
+            <div class="form-group">
+                {{ form.page.label(class="form-label") }}
+                {% if form.page.errors %}
+                    {{ form.page(class="form-control is-invalid", placeholder="Enter Number of Pages") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.page.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.page(class="form-control", placeholder="Enter Number of Pages") }}
+                {% endif %}
+            </div>
+
+            <!-- User ID Field (if borrowed) -->
+            <div class="form-group">
+                {{ form.user_id.label(class="form-label") }}
+                {% if form.user_id.errors %}
+                    {{ form.user_id(class="form-control is-invalid", placeholder="Enter User ID (if borrowed)") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.user_id.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.user_id(class="form-control", placeholder="Enter User ID (if borrowed)") }}
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+{% endblock %}

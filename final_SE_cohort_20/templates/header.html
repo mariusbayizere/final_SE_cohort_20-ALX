@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Library Management System{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: Outfit, sans-serif;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;  
+    }
+    
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #333;
+        color: white;
+        padding: 10px 40px;
+        height: 100px;
+    }
+    
+    .header-left h1 {
+        font-size: 24px;
+    }
+    
+    .header-right ul {
+        display: flex;
+        list-style: none;
+    }
+    
+    .header-right ul li {
+        margin-left: 100px;
+
+    }
+    
+    .header-right ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+    }
+    
+    .header-right ul li a:hover {
+        text-decoration: underline;
+    }
+    
+    main {
+        flex: 1;  /* Allow the main content area to grow and fill the remaining space */
+        padding: 20px;
+    }
+    
+    footer {
+        background-color: #333;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        height: 90px;
+    }
+    
+    .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .footer-content p{
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        line-height: 60px;
+        align-items: center;
+    }
+
+    .footer-content ul {
+        list-style: none;
+        display: flex;
+    }
+    
+    .footer-content ul li {
+        margin-left: 20px;
+    }
+    
+    .footer-content ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+    }
+    
+    .footer-content ul li a:hover {
+        text-decoration: underline;
+    }
+    .services-list {
+        list-style-type: none;
+        padding: 0;
+        margin: 20px 0;
+        font-size: 18px;
+    }
+    
+    .services-list li {
+        margin-bottom: 15px;
+    }
+    
+    .services-list strong {
+        color: #333;
+    }
+</style>
+<body>
+    <header>
+        <div class="header-left">
+            <h1>Library Management System</h1>
+        </div>
+        <nav class="header-right">
+            <ul>
+                <li><a href="{{ url_for('user.view_all_users') }}">Home</a></li>
+                <li><a href="{{ url_for('user.about') }}">About</a></li>
+                <li><a href="{{ url_for('user.contact') }}">Contact</a></li>
+                <li><a href="{{ url_for('user.services') }}">Services</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- Content specific to each page will go here -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Library Management System. All rights reserved.</p>
+            <ul>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+            </ul>
+        </div>
+    </footer>
+</body>
+</html>

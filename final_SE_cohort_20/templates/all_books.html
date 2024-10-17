@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book App</title>
+    <!-- Google Font: Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            background-color: #f5e7d7; /* Light background similar to the image */
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            background-color: #e7ccb1;
+            height: 100vh;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 20px;
+        }
+
+        .sidebar h2 {
+            font-size: 24px;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            color: #333;
+            padding: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .sidebar img {
+            margin-right: 10px;
+            width: 26px;
+        }
+
+        .sidebar a:hover {
+            background-color: #d8b89d;
+            border-radius: 5px;
+        }
+
+        /* Content area styling */
+        .content {
+            margin-left: 260px; /* Space for sidebar */
+            padding: 20px;
+        }
+
+        .content h1 {
+            font-weight: bold;
+            font-size: 28px;
+            color: #333;
+        }
+
+        /* Search box styling */
+        .search-box {
+            width: 100%;
+            display: flex;  
+            justify-content: start;
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            width: 60%;
+            padding: 12px;
+            padding-left: 30px;
+            border-radius: 30px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            outline: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        
+        /* Book card container */
+        .book-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3px;
+        }
+
+        /* Book card styling */
+        .book-card {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            margin-bottom: 20px;
+            padding: 15px;
+            margin-top: 40px;
+            margin-left: 40px;          
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .book-cover {
+            height: 300px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-title {
+            font-size: 18px;
+            margin-top: 1px;
+            font-weight: 600;
+            color: #333;
+            text-decoration: none;
+            
+        }
+
+        .book-description {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+            text-decoration: none;
+
+        }
+        
+        .book-description:hover{
+            text-decoration: none;
+        }
+
+
+        /* Media Queries for responsiveness */
+        @media (max-width: 1200px) {
+            .book-card {
+                width: calc(33.33% - 20px);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .book-card {
+                width: calc(50% - 20px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .book-card {
+                width: 100%;
+            }
+        }
+
+        /* Sorting Option Styling */
+        .sort-option {
+            margin-top: 30px;
+        }
+
+        .sort-option h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .sort-option label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .sort-option input[type="radio"] {
+            margin-right: 10px;
+        }
+        .cards-books h1{
+            margin-top: 30px;
+            padding-top:30px;
+            margin-left: 40px;
+            font-weight: bold;
+        }
+        .cards-books{
+            border-radius: 10px;
+            width: 100%;
+            background-color: #d8b89d;
+            height: auto;
+        }
+        .search-box {
+            display: flex;  
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 20px;
+        }
+        
+        .search-box input {
+            flex-grow: 1;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 30px 0 0 30px;
+            font-size: 16px;
+            outline: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-box button {
+            padding: 12px 20px;
+            border: 1px solid #007bff;
+            border-radius: 0 30px 30px 0; 
+            background-color: #007bff; 
+            color: white;
+            cursor: pointer; 
+        }
+        
+        .search-box button:hover {
+            background-color: #0056b3;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Book App</h2>
+        <a href="{{ url_for('book.all_books') }}"><img src="static/images/stylesIcons/HomeIcon.png" alt="Home Icon"> Home</a>
+        <a href="{{ url_for('user.contact') }}"><img src="static/images/stylesIcons/contact.png" alt="Contact Icon"> Contact</a>
+        <a href="{{ url_for('user.about') }}"><img src="static/images/stylesIcons/aboutphoto.png" alt="About Us Icon"> About Us</a>
+        <a href="#"><img src="static/images/stylesIcons/setting.png" alt="Settings Icon"> Settings</a>
+        <a href="{{url_for('user.update_password')}}"><img src="static/images/stylesIcons/password.png" alt="Change Password Icon"> Change Password</a>
+        <a href="#"><img src="static/images/stylesIcons/rate.png" alt="Rate Us Icon"> Rate Us</a>
+        <a href="{{ url_for('borrow.return_book') }}"><img src="static/images/stylesIcons/return book1.png" alt="Rate Us Icon">Return Books</a>
+        <a href="{{ url_for('user.logout') }}"><img src="static/images/stylesIcons/logout.jpg" alt="Rate Us Icon">Logout</a>
+
+
+        <!-- Sorting Option with Radio Buttons -->
+        <div class="sort-option">
+            <h3>Sort By</h3>
+            <label><input type="radio" name="sort" value="title" onclick="sortBooks()"><span> Title</span></label>
+            <label><input type="radio" name="sort" value="author" onclick="sortBooks()"><span> Author</span></label>
+            <label><input type="radio" name="sort" value="date" onclick="sortBooks()"><span> Publication Date</span></label>
+            <label><input type="radio" name="sort" value="rating" onclick="sortBooks()"><span> Rating</span></label>
+        </div>        
+    </div>
+
+    <div class="content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div>
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+        <!-- Search box -->
+    <div class="search-box">
+        <form method="GET" action="{{ url_for('book.search_books') }}">
+            <input type="text" name="query" placeholder="Tell me what you like to read and we will get that ..." required>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+
+        <div class="cards-books">
+            <h1>All Books</h1>
+            <div class="book-container">
+                {% for book in books %}
+                <a href="{{ url_for('borrow.add_borrow', book_id=book.book_id) }}">
+                    <div class="book-card">
+                        <img src="{{ book.BookImages }}" alt="{{ book.title }} Cover" class="book-cover img-fluid">
+                        <div class="book-title">{{ book.title }}</div>
+                        <div class="book-title">{{ book.book_status }}</div>
+                        <div class="book-description">{{ book.Description }}</div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>      
+
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function sortBooks() {
+            let selectedSort = document.querySelector('input[name="sort"]:checked');
+            if (selectedSort) {
+                let sortBy = selectedSort.value;
+                console.log(`Sorting by: ${sortBy}`);
+                window.location.href = `/sorting_books?sort=${sortBy}`;
+            } else {
+                console.log("No sorting option selected.");
+            }
+        }        
+    </script> 
+</body>
+</html>
